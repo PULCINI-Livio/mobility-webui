@@ -1,10 +1,10 @@
 import MapView from "./MapView";
 
-export default function MapPage() {
+export default function MapPage({ universities }) {
   return (
     <div>
       <h1>Map Overview</h1>
-      <MapView />
+      <MapView universities={universities} />
     </div>
   );
 }
