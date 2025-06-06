@@ -9,6 +9,7 @@ function App() {
 
   const [universities, setUniversities] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
+  const [selectedCities, setSelectedCities] = useState([]);
 
   useEffect(() => {
     Papa.parse('/universities.csv', {
@@ -26,9 +27,12 @@ function App() {
   }, []);
 
   const countries = [...new Set(universities.map(u => u.country).filter(Boolean))];
-  const filtered = selectedCountries.length === 0
-    ? universities
-    : universities.filter(u => selectedCountries.includes(u.country));
+  const cities = [...new Set(universities.map(u => u.city).filter(Boolean))];
+  const filtered = universities.filter(u => {
+    const countryMatch = selectedCountries.length === 0 || selectedCountries.includes(u.country);
+    const cityMatch = selectedCities.length === 0 || selectedCities.includes(u.city);
+    return countryMatch && cityMatch;
+  });
 
   return (
     <div className="flex min-h-screen">
@@ -37,6 +41,9 @@ function App() {
         countries={countries}
         selectedCountries={selectedCountries}
         setSelectedCountries={setSelectedCountries}
+        cities={cities}
+        selectedCities={selectedCities}
+        setSelectedCities={setSelectedCities}
       />
       <main className="flex-1 p-6">
         {activePage === "map" && <MapPage universities={filtered} />}

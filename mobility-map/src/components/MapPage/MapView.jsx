@@ -20,7 +20,8 @@ function ClusterMarkers({ universities }) {
       const marker = L.marker([u.latitude, u.longitude]).bindPopup(`
         <strong>${u.university}</strong><br />
         internationalStudents: ${u.internationalStudents || '-'}<br />
-        Pays: ${u.country || '-'}
+        Pays: ${u.country || '-'}<br />
+        Ville: ${u.country || '-'}
       `);
 
       markerGroup.addLayer(marker);

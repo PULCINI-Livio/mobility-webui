@@ -3,12 +3,16 @@ import MapButton from "./MapButton";
 import MapFilterPanel from "./MapFilterPanel";
 import UnivSelection from "./UnivSelection";
 import CountryFilter from "./CountryFilter";
+import CityFilter from "./CityFilter";
 
 export default function Sidebar({
   onSelectPage,
   countries,
   selectedCountries,
-  setSelectedCountries
+  setSelectedCountries,
+  cities,
+  selectedCities,
+  setSelectedCities
 }) {
   return (
     <div className="bg-[#009bda]">
@@ -21,6 +25,11 @@ export default function Sidebar({
         countries={countries}
         selected={selectedCountries}
         onChange={setSelectedCountries}
+      />
+      <CityFilter
+        cities={cities}
+        selected={selectedCities}
+        onChange={setSelectedCities}
       />
     </div>
   );
