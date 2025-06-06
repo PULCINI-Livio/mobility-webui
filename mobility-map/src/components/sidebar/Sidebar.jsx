@@ -12,8 +12,12 @@ export default function Sidebar({
   setSelectedCountries,
   cities,
   selectedCities,
-  setSelectedCities
+  setSelectedCities,
 }) {
+  const handleResetFilters = () => {
+    setSelectedCountries([]);
+    setSelectedCities([]);
+  };
   return (
     <div className="bg-[#009bda]">
       <h1>Mobility</h1>
@@ -31,6 +35,12 @@ export default function Sidebar({
         selected={selectedCities}
         onChange={setSelectedCities}
       />
+      <button
+        onClick={handleResetFilters}
+        className="mt-2 px-3 py-1 bg-white text-[#009bda] rounded hover:bg-gray-100"
+      >
+        Réinitialiser les filtres
+      </button>
     </div>
   );
 }
