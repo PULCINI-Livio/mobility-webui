@@ -28,7 +28,11 @@ export default function Sidebar({
       <h1>Mobility</h1>
       <MapButton onButtonClick={() => onSelectPage("map")} />
       <CartButton onButtonClick={() => onSelectPage("comparison")} />
-      <UnivSelection selectedUnivs={selectedUnivs} reorderUnivs={reorderUnivs} />
+      <UnivSelection
+        selectedUnivs={selectedUnivs}
+        setSelectedUnivs={setSelectedUnivs}
+        reorderUnivs={reorderUnivs}
+      />
       {filtersOpen && (
         <div className="space-y-2 mt-2">
           <CountryFilter

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, useMap, Popup } from 'react-leaflet';
-import ReactDOM from "react-dom/client";
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import L from 'leaflet';
 import 'leaflet.markercluster';
-
 
 function ClusterMarkers({ universities, onAddUniv }) {
   const map = useMap();
@@ -16,31 +14,34 @@ function ClusterMarkers({ universities, onAddUniv }) {
 
     const markerGroup = L.markerClusterGroup();
 
-    universities.forEach((u, idx) => {
+    universities.forEach((u) => {
       if (!u.latitude || !u.longitude) return;
 
-      const marker = L.marker([u.latitude, u.longitude]);
+      const marker = L.marker([u.latitude, u.longitude], { university: u });
 
-      const popupContent = document.createElement('div');
-      popupContent.innerHTML = `
+      const popupContent = `
         <div>
           <strong>${u.university}</strong><br />
           <div>Pays: ${u.country || "-"}</div>
           <div>Ville: ${u.city || "-"}</div>
           <div>Étudiants internationaux: ${u.internationalStudents || "-"}</div>
-          <button class="add-univ-btn" data-idx="${idx}">
+          <button class="add-univ-btn">
             Ajouter
           </button>
         </div>
       `;
 
-      const btn = popupContent.querySelector('.add-univ-btn');
-      if (btn) {
-        btn.addEventListener('click', () => onAddUniv(u));
-      }
-
       marker.bindPopup(popupContent);
       markerGroup.addLayer(marker);
+    });
+
+    markerGroup.on('popupopen', (e) => {
+      const marker = e.popup._source;
+      const univ = marker.options.university;
+      const btn = e.popup._contentNode.querySelector('.add-univ-btn');
+      if (btn && univ) {
+        btn.addEventListener('click', () => onAddUniv(univ));
+      }
     });
 
     map.addLayer(markerGroup);
@@ -52,8 +53,6 @@ function ClusterMarkers({ universities, onAddUniv }) {
 
   return null;
 }
-
-
 
 export default function MapView({ universities, onAddUniv }) {
   return (
