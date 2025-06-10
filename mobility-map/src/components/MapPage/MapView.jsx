@@ -56,7 +56,7 @@ function ClusterMarkers({ universities, onAddUniv }) {
 
 export default function MapView({ universities, onAddUniv }) {
   return (
-    <div className="h-[600px] w-full rounded-lg overflow-hidden">
+    <div className="h-[100vh] w-full rounded-lg overflow-hidden">
       <MapContainer center={[48.85, 2.35]} zoom={4} scrollWheelZoom className="h-full w-full">
         <TileLayer
           attribution="&copy; OpenStreetMap"

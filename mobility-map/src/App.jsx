@@ -44,7 +44,7 @@ function App() {
   const reorderUnivs = (reordered) => setSelectedUnivs(reordered);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-[#000bda]">
       <Sidebar
         onSelectPage={setActivePage}
         countries={countries}
