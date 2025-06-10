@@ -11,6 +11,8 @@ function App() {
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
 
+  const [selectedUnivs, setSelectedUnivs] = useState([]);
+
   useEffect(() => {
     Papa.parse('/universities.csv', {
       download: true,
@@ -34,6 +36,13 @@ function App() {
     return countryMatch && cityMatch;
   });
 
+  const addUniv = (univ) => {
+    if (selectedUnivs.some(u => u.university === univ.university) || selectedUnivs.length >= 5) return;
+    setSelectedUnivs([...selectedUnivs, univ]);
+  };
+
+  const reorderUnivs = (reordered) => setSelectedUnivs(reordered);
+
   return (
     <div className="flex min-h-screen">
       <Sidebar
@@ -44,9 +53,12 @@ function App() {
         cities={cities}
         selectedCities={selectedCities}
         setSelectedCities={setSelectedCities}
+        selectedUnivs={selectedUnivs}
+        setSelectedUnivs={setSelectedUnivs}
+        reorderUnivs={reorderUnivs}
       />
       <main className="flex-1 p-6">
-        {activePage === "map" && <MapPage universities={filtered} />}
+        {activePage === "map" && <MapPage universities={filtered} onAddUniv={addUniv} />}
         {activePage === "comparison" && <ComparisonPage />}
       </main>
     </div>

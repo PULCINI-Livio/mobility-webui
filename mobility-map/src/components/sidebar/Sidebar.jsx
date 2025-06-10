@@ -1,6 +1,5 @@
 import CartButton from "./CartButton";
 import MapButton from "./MapButton";
-import MapFilterPanel from "./MapFilterPanel";
 import UnivSelection from "./UnivSelection";
 import CountryFilter from "./CountryFilter";
 import CityFilter from "./CityFilter";
@@ -14,6 +13,9 @@ export default function Sidebar({
   cities,
   selectedCities,
   setSelectedCities,
+  selectedUnivs,
+  setSelectedUnivs,
+  reorderUnivs
 }) {
   const handleResetFilters = () => {
     setSelectedCountries([]);
@@ -26,7 +28,7 @@ export default function Sidebar({
       <h1>Mobility</h1>
       <MapButton onButtonClick={() => onSelectPage("map")} />
       <CartButton onButtonClick={() => onSelectPage("comparison")} />
-      <UnivSelection />
+      <UnivSelection selectedUnivs={selectedUnivs} reorderUnivs={reorderUnivs} />
       {filtersOpen && (
         <div className="space-y-2 mt-2">
           <CountryFilter

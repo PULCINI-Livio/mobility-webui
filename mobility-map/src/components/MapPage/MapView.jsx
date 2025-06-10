@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, useMap, Popup } from 'react-leaflet';
+import ReactDOM from "react-dom/client";
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-function ClusterMarkers({ universities }) {
+
+function ClusterMarkers({ universities, onAddUniv }) {
   const map = useMap();
 
   useEffect(() => {
@@ -14,16 +16,30 @@ function ClusterMarkers({ universities }) {
 
     const markerGroup = L.markerClusterGroup();
 
-    universities.forEach(u => {
+    universities.forEach((u, idx) => {
       if (!u.latitude || !u.longitude) return;
 
-      const marker = L.marker([u.latitude, u.longitude]).bindPopup(`
-        <strong>${u.university}</strong><br />
-        internationalStudents: ${u.internationalStudents || '-'}<br />
-        Pays: ${u.country || '-'}<br />
-        Ville: ${u.country || '-'}
-      `);
+      const marker = L.marker([u.latitude, u.longitude]);
 
+      const popupContent = document.createElement('div');
+      popupContent.innerHTML = `
+        <div>
+          <strong>${u.university}</strong><br />
+          <div>Pays: ${u.country || "-"}</div>
+          <div>Ville: ${u.city || "-"}</div>
+          <div>Étudiants internationaux: ${u.internationalStudents || "-"}</div>
+          <button class="add-univ-btn" data-idx="${idx}">
+            Ajouter
+          </button>
+        </div>
+      `;
+
+      const btn = popupContent.querySelector('.add-univ-btn');
+      if (btn) {
+        btn.addEventListener('click', () => onAddUniv(u));
+      }
+
+      marker.bindPopup(popupContent);
       markerGroup.addLayer(marker);
     });
 
@@ -32,12 +48,14 @@ function ClusterMarkers({ universities }) {
     return () => {
       map.removeLayer(markerGroup);
     };
-  }, [map, universities]);
+  }, [map, universities, onAddUniv]);
 
   return null;
 }
 
-export default function MapView({ universities }) {
+
+
+export default function MapView({ universities, onAddUniv }) {
   return (
     <div className="h-[600px] w-full rounded-lg overflow-hidden">
       <MapContainer center={[48.85, 2.35]} zoom={4} scrollWheelZoom className="h-full w-full">
@@ -45,7 +63,7 @@ export default function MapView({ universities }) {
           attribution="&copy; OpenStreetMap"
           url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}.png"
         />
-        <ClusterMarkers universities={universities} />
+        <ClusterMarkers universities={universities} onAddUniv={onAddUniv} />
       </MapContainer>
     </div>
   );
