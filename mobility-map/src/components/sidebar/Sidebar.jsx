@@ -4,8 +4,12 @@ import UnivSelection from "./UnivSelection";
 import CountryFilter from "./CountryFilter";
 import CityFilter from "./CityFilter";
 import { useState } from "react";
+import Button from '@mui/material/Button';
+import { Typography, Box } from '@mui/material';
+import { GlobeAltIcon } from '@heroicons/react/24/outline';
 
 export default function Sidebar({
+  activePage,
   onSelectPage,
   countries,
   selectedCountries,
@@ -17,10 +21,8 @@ export default function Sidebar({
   setSelectedUnivs,
   reorderUnivs
 }) {
-  const [activePage, setActivePage] = useState("map");
 
   const handleSelect = (page) => {
-    setActivePage(page);
     onSelectPage(page);
   };
   const handleResetFilters = () => {
@@ -28,10 +30,20 @@ export default function Sidebar({
     setSelectedCities([]);
   };
   const [filtersOpen, setFiltersOpen] = useState(true);
-
+      
   return (
-    <div className="bg-[#009bda] px-[2vh]">
-      <h1 className="text-[#000000] text-lg font-bold mb-4">Mobility</h1>
+    <div className="bg-[#009bda] px-[2vh] max-w-[20vw] min-w-min pt-[32px]">
+      <Box display="flex" alignItems="center" gap={1}>
+        <GlobeAltIcon style={{ height: 48, width: 48, color: '#ffffff' }} />
+        <Typography variant="h3" 
+          sx={{ 
+            fontFamily: 'Roboto, sans-serif', 
+            color: '#ffffff' 
+          }}
+        >
+          MOBILITY
+        </Typography>
+      </Box>
       <MapButton
         onButtonClick={() => handleSelect("map")}
         active={activePage === "map"}
@@ -45,6 +57,22 @@ export default function Sidebar({
         setSelectedUnivs={setSelectedUnivs}
         reorderUnivs={reorderUnivs}
       />
+      <Button
+        onClick={() => setFiltersOpen(prev => !prev)}
+        sx={{
+          boxShadow: 'none',
+          backgroundColor:'#ffffff',
+          color: '#009bda',
+          textTransform: 'none',
+          marginY: '2vh',
+          '&:hover': {
+            backgroundColor: '#8d8d8d',
+            color: '#ffffff'
+          },
+        }}
+      >
+        {filtersOpen ? "Masquer les filtres" : "Afficher les filtres"}
+      </Button>
       {filtersOpen && (
         <div className="space-y-2 mt-2">
           <CountryFilter
@@ -57,21 +85,24 @@ export default function Sidebar({
             selected={selectedCities}
             onChange={setSelectedCities}
           />
-          <button
+          <Button
             onClick={handleResetFilters}
-            className="mt-2 px-3 py-1 bg-white text-[#009bda] rounded hover:bg-gray-100"
+            sx={{
+              marginY: '2vh',
+              boxShadow: 'none',
+              backgroundColor:'#ffffff',
+              color: '#009bda',
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: '#8d8d8d',
+                color: '#ffffff'
+              },
+            }}
           >
             Réinitialiser les filtres
-          </button>
+          </Button>
         </div>
       )}
-      <button
-        onClick={() => setFiltersOpen(prev => !prev)}
-        className="text-white underline"
-      >
-        {filtersOpen ? "Masquer les filtres" : "Afficher les filtres"}
-      </button>
-
     </div>
   );
 }

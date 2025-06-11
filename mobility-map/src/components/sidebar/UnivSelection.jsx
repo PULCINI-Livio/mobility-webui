@@ -12,6 +12,10 @@ import {
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { IconButton } from '@mui/material';
 
 function SortableItem({ id, name, handleRemove }) {
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({ id });
@@ -20,20 +24,37 @@ function SortableItem({ id, name, handleRemove }) {
     transition,
     padding: "8px",
     marginBottom: "4px",
-    background: "#fff",
+    background: "#ebebeb",
     borderRadius: "4px",
     cursor: "grab",
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    borderRadius: '4px'
   };
 
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
       <div ref={setActivatorNodeRef} {...listeners} style={{ flex: 1 }}>
-        <span>{name}</span>
+        <Typography 
+          variant="body1"
+          sx={{ 
+            fontFamily: 'Roboto, sans-serif', 
+            color: '#000000',
+          }}
+        >
+          {name}
+        </Typography>
       </div>
-      <button onClick={(e) => { e.stopPropagation(); handleRemove(id); }} style={{ cursor: "pointer", background: "none", border: "none", color: "red", fontWeight: "bold" }}>X</button>
+      <IconButton
+        onClick={(e) => {
+          e.stopPropagation();
+          handleRemove(id);
+        }}
+        sx={{ color: '#8d8d8d' }}
+      >
+        <CancelIcon />
+      </IconButton>
     </div>
   );
 }
@@ -56,8 +77,22 @@ export default function UnivSelection({ selectedUnivs, reorderUnivs }) {
   };
 
   return (
-    <div className="p-2 bg-white rounded shadow text-black">
-      <h2 className="font-bold mb-2">Universités sélectionnées</h2>
+    <Box 
+      sx={{
+        padding:'1vw',
+        backgroundColor:'#ffffff',
+        color: '#000000',
+        borderRadius: '4px'
+      }}
+      className="my-[5vh] ">
+      <Typography 
+        variant="h5"
+        sx={{
+          color: '#009bda',
+          paddingBottom: '2vh'
+        }}
+      >
+        Universités sélectionnées</Typography>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={selectedUnivs.map(u => u.university)} strategy={verticalListSortingStrategy}>
           {selectedUnivs.map(u => (
@@ -65,6 +100,6 @@ export default function UnivSelection({ selectedUnivs, reorderUnivs }) {
           ))}
         </SortableContext>
       </DndContext>
-    </div>
+    </Box>
   );
 }

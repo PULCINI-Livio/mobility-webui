@@ -3,6 +3,7 @@ import Sidebar from './components/sidebar/Sidebar';
 import MapPage from './components/MapPage/MapPage';
 import ComparisonPage from './components/ComparisonPage/ComparisonPage';
 import Papa from 'papaparse';
+import Button from '@mui/material/Button';
 
 function App() {
   const [activePage, setActivePage] = useState("map");
@@ -12,6 +13,8 @@ function App() {
   const [selectedCities, setSelectedCities] = useState([]);
 
   const [selectedUnivs, setSelectedUnivs] = useState([]);
+
+  const [sidebarVisible, setSidebarVisible] = useState(true);
 
   useEffect(() => {
     Papa.parse('/universities.csv', {
@@ -44,19 +47,40 @@ function App() {
   const reorderUnivs = (reordered) => setSelectedUnivs(reordered);
 
   return (
-    <div className="flex min-h-screen bg-[#000bda]">
-      <Sidebar
-        onSelectPage={setActivePage}
-        countries={countries}
-        selectedCountries={selectedCountries}
-        setSelectedCountries={setSelectedCountries}
-        cities={cities}
-        selectedCities={selectedCities}
-        setSelectedCities={setSelectedCities}
-        selectedUnivs={selectedUnivs}
-        setSelectedUnivs={setSelectedUnivs}
-        reorderUnivs={reorderUnivs}
-      />
+    <div className="relative flex min-h-screen bg-[#000bda]">
+      <Button
+        onClick={() => setSidebarVisible(!sidebarVisible)}
+        sx={{
+          marginLeft: '100px',
+          position: 'absolute',
+          backgroundColor: '#009bda',
+          color:  '#ffffff',
+          textTransform: 'none',
+          '&:hover': {
+            backgroundColor: '#007bb5',
+          },
+        }}
+        className="absolute top-4 left-4 z-50 bg-white text-black px-3 py-1 rounded shadow"
+      >
+        {sidebarVisible ? '⏴ Cacher' : '⏵ Afficher'}
+      </Button>
+
+      {sidebarVisible && (
+        <Sidebar
+          activePage={activePage}
+          onSelectPage={setActivePage}
+          countries={countries}
+          selectedCountries={selectedCountries}
+          setSelectedCountries={setSelectedCountries}
+          cities={cities}
+          selectedCities={selectedCities}
+          setSelectedCities={setSelectedCities}
+          selectedUnivs={selectedUnivs}
+          setSelectedUnivs={setSelectedUnivs}
+          reorderUnivs={reorderUnivs}
+        />
+      )}
+
       <main className="flex-1 p-6">
         {activePage === "map" && <MapPage universities={filtered} onAddUniv={addUniv} />}
         {activePage === "comparison" && <ComparisonPage />}

@@ -1,15 +1,30 @@
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import Button from '@mui/material/Button';
 
 export default function CartButton({ onButtonClick, active }) {
   return (
-    <button
+    <Button
       onClick={onButtonClick}
-      className={`flex items-center w-full border-[#009bda] my-[2vh] ${
-        active ? 'bg-white text-[#009bda]' : 'bg-[#009bda] text-[#ffffff]'
-      }`}
+      variant="contained"
+      sx={{
+        boxShadow: 'none',
+        backgroundColor: active ? '#ffffff' : '#009bda',
+        color: active ? '#009bda' : '#ffffff',
+        textTransform: 'none',
+        justifyContent: 'flex-start',
+        gap: 1,
+        paddingY: 1.5,
+        paddingX: 2,
+        '&:hover': {
+          backgroundColor: active ? '#f0f0f0' : '#007bb5',
+        },
+      }}
+      fullWidth
+      startIcon={
+        <ShoppingCartIcon style={{ height: 24, width: 24 }} />
+      }
     >
-      <ShoppingCartIcon className="max-h-[5vh] mx-[1vw]" /> 
       Cart Comparison
-    </button>
+    </Button>
   );
 }
