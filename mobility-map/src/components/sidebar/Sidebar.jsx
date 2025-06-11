@@ -17,6 +17,12 @@ export default function Sidebar({
   setSelectedUnivs,
   reorderUnivs
 }) {
+  const [activePage, setActivePage] = useState("map");
+
+  const handleSelect = (page) => {
+    setActivePage(page);
+    onSelectPage(page);
+  };
   const handleResetFilters = () => {
     setSelectedCountries([]);
     setSelectedCities([]);
@@ -24,10 +30,16 @@ export default function Sidebar({
   const [filtersOpen, setFiltersOpen] = useState(true);
 
   return (
-    <div className="bg-[#009bda]">
-      <h1>Mobility</h1>
-      <MapButton onButtonClick={() => onSelectPage("map")} />
-      <CartButton onButtonClick={() => onSelectPage("comparison")} />
+    <div className="bg-[#009bda] px-[2vh]">
+      <h1 className="text-[#000000] text-lg font-bold mb-4">Mobility</h1>
+      <MapButton
+        onButtonClick={() => handleSelect("map")}
+        active={activePage === "map"}
+      />
+      <CartButton
+        onButtonClick={() => handleSelect("comparison")}
+        active={activePage === "comparison"}
+      />
       <UnivSelection
         selectedUnivs={selectedUnivs}
         setSelectedUnivs={setSelectedUnivs}

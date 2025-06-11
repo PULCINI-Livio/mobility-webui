@@ -15,6 +15,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@heroicons/react": "^2.2.0",
     "@mui/material": "^7.1.1",
     "@tailwindcss/cli": "^4.1.8",
     "leaflet": "^1.9.4",
