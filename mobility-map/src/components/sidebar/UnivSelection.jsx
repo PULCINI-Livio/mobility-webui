@@ -80,11 +80,12 @@ export default function UnivSelection({ selectedUnivs, reorderUnivs }) {
     <Box 
       sx={{
         padding:'1vw',
+        marginY: '2vh',
         backgroundColor:'#ffffff',
         color: '#000000',
         borderRadius: '4px'
       }}
-      className="my-[5vh] ">
+    >
       <Typography 
         variant="h5"
         sx={{

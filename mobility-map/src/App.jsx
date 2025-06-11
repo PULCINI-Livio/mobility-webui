@@ -47,7 +47,7 @@ function App() {
   const reorderUnivs = (reordered) => setSelectedUnivs(reordered);
 
   return (
-    <div className="relative flex min-h-screen bg-[#000bda]">
+    <div className="relative flex min-h-screen bg-[#009bda]">
       <Button
         onClick={() => setSidebarVisible(!sidebarVisible)}
         sx={{
@@ -83,7 +83,7 @@ function App() {
 
       <main className="flex-1 p-6">
         {activePage === "map" && <MapPage universities={filtered} onAddUniv={addUniv} />}
-        {activePage === "comparison" && <ComparisonPage />}
+        {activePage === "comparison" && <ComparisonPage selectedUnivs={selectedUnivs} />}
       </main>
     </div>
   );

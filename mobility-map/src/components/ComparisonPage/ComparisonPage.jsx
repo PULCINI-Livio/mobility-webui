@@ -1,10 +1,9 @@
 import ComparisonTable from "./ComparisonTable";
 
-export default function ComparisonPage() {
+export default function ComparisonPage({ selectedUnivs }) {
   return (
     <div>
-      <h1>Cart Comparison</h1>
-      <ComparisonTable />
+      <ComparisonTable universities={selectedUnivs} />
     </div>
   );
 }
