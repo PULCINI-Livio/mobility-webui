@@ -1,38 +1,44 @@
-import {
-  Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper
-} from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import { Typography, Box } from '@mui/material';
 
 function ComparisonTable({ universities }) {
   if (universities.length === 0) {
-    return <p>Aucune université sélectionnée.</p>;
+    return <Typography variant="h3">Aucune université sélectionnée.</Typography>;
   }
 
+  const columns = [
+    { field: 'id', headerName: 'ID', flex: 0.3 },
+    { field: 'university', headerName: 'Nom', flex: 1 },
+    { field: 'country', headerName: 'Pays', flex: 0.7 },
+    { field: 'city', headerName: 'Ville', flex: 0.7 },
+    { field: 'latitude', headerName: 'Latitude', flex: 0.6, type: 'number' },
+    { field: 'longitude', headerName: 'Longitude', flex: 0.6, type: 'number' },
+  ];
+
+  const rows = universities.map((u, index) => ({
+    id: index + 1,
+    ...u,
+  }));
+
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Nom</TableCell>
-            <TableCell>Pays</TableCell>
-            <TableCell>Ville</TableCell>
-            <TableCell>Latitude</TableCell>
-            <TableCell>Longitude</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {universities.map((u, index) => (
-            <TableRow key={index}>
-              <TableCell>{u.university}</TableCell>
-              <TableCell>{u.country}</TableCell>
-              <TableCell>{u.city}</TableCell>
-              <TableCell>{u.latitude}</TableCell>
-              <TableCell>{u.longitude}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box sx={{ width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        autoHeight
+        disableColumnMenu
+        sx={{
+          '& .MuiDataGrid-columnSeparator': {
+            display: 'none',
+          },
+          '& .MuiDataGrid-columnHeader': {
+            cursor: 'default',
+          },
+        }}
+      />
+    </Box>
   );
 }
 
