@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import MapPage from './components/MapPage/MapPage';
 import ComparisonPage from './components/ComparisonPage/ComparisonPage';
-import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
 import Button from '@mui/material/Button';
 
 function App() {
@@ -16,20 +16,26 @@ function App() {
 
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
-  useEffect(() => {
-    Papa.parse('/universities.csv', {
-      download: true,
-      header: true,
-      complete: (results) => {
-        const data = results.data.map(u => ({
-          ...u,
-          latitude: parseFloat(u.latitude),
-          longitude: parseFloat(u.longitude),
-        })).filter(u => !isNaN(u.latitude) && !isNaN(u.longitude));
-        setUniversities(data);
-      }
-    });
-  }, []);
+
+  const handleFileUpload = (file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+      const parsedData = jsonData.map(u => ({
+        ...u,
+        latitude: parseFloat(u.latitude),
+        longitude: parseFloat(u.longitude),
+      })).filter(u => !isNaN(u.latitude) && !isNaN(u.longitude));
+
+      setUniversities(parsedData);
+    };
+    reader.readAsArrayBuffer(file);
+  };
 
   const countries = [...new Set(universities.map(u => u.country).filter(Boolean))];
   const cities = [...new Set(universities.map(u => u.city).filter(Boolean))];
@@ -78,6 +84,7 @@ function App() {
           selectedUnivs={selectedUnivs}
           setSelectedUnivs={setSelectedUnivs}
           reorderUnivs={reorderUnivs}
+          onFileUpload={handleFileUpload}
         />
       )}
 

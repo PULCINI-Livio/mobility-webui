@@ -3,6 +3,7 @@ import MapButton from "./MapButton";
 import UnivSelection from "./UnivSelection";
 import CountryFilter from "./CountryFilter";
 import CityFilter from "./CityFilter";
+import InputFileUpload from "./InputFileUpload";
 import { useState } from "react";
 import Button from '@mui/material/Button';
 import { Typography, Box } from '@mui/material';
@@ -19,7 +20,8 @@ export default function Sidebar({
   setSelectedCities,
   selectedUnivs,
   setSelectedUnivs,
-  reorderUnivs
+  reorderUnivs,
+  onFileUpload 
 }) {
 
   const handleSelect = (page) => {
@@ -52,6 +54,7 @@ export default function Sidebar({
         onButtonClick={() => handleSelect("comparison")}
         active={activePage === "comparison"}
       />
+      <InputFileUpload onFileUpload={onFileUpload} />
       <UnivSelection
         selectedUnivs={selectedUnivs}
         setSelectedUnivs={setSelectedUnivs}
