@@ -28,7 +28,6 @@ function ComparisonTable({ universities }) {
         pageSize={5}
         rowsPerPageOptions={[5]}
         autoHeight
-        disableColumnMenu
         sx={{
           '& .MuiDataGrid-columnSeparator': {
             display: 'none',
