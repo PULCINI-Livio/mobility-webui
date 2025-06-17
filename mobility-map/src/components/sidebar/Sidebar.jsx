@@ -15,9 +15,6 @@ export default function Sidebar({
   countries,
   selectedCountries,
   setSelectedCountries,
-  cities,
-  selectedCities,
-  setSelectedCities,
   selectedUnivs,
   setSelectedUnivs,
   reorderUnivs,
@@ -29,7 +26,6 @@ export default function Sidebar({
   };
   const handleResetFilters = () => {
     setSelectedCountries([]);
-    setSelectedCities([]);
   };
   const [filtersOpen, setFiltersOpen] = useState(true);
       
@@ -82,11 +78,6 @@ export default function Sidebar({
             countries={countries}
             selected={selectedCountries}
             onChange={setSelectedCountries}
-          />
-          <CityFilter
-            cities={cities}
-            selected={selectedCities}
-            onChange={setSelectedCities}
           />
           <Button
             onClick={handleResetFilters}

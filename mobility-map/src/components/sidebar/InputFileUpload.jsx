@@ -22,7 +22,7 @@ export default function InputFileUpload({ onFileUpload }) {
       variant="contained"
       startIcon={<CloudUploadIcon />}
     >
-      Upload CSV
+      Upload EXCEL
       <VisuallyHiddenInput
         type="file"
         accept=".xlsx, .xls"

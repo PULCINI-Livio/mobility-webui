@@ -10,7 +10,6 @@ function App() {
 
   const [universities, setUniversities] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
-  const [selectedCities, setSelectedCities] = useState([]);
 
   const [selectedUnivs, setSelectedUnivs] = useState([]);
 
@@ -38,11 +37,9 @@ function App() {
   };
 
   const countries = [...new Set(universities.map(u => u.country).filter(Boolean))];
-  const cities = [...new Set(universities.map(u => u.city).filter(Boolean))];
   const filtered = universities.filter(u => {
     const countryMatch = selectedCountries.length === 0 || selectedCountries.includes(u.country);
-    const cityMatch = selectedCities.length === 0 || selectedCities.includes(u.city);
-    return countryMatch && cityMatch;
+    return countryMatch;
   });
 
   const addUniv = (univ) => {
@@ -78,9 +75,6 @@ function App() {
           countries={countries}
           selectedCountries={selectedCountries}
           setSelectedCountries={setSelectedCountries}
-          cities={cities}
-          selectedCities={selectedCities}
-          setSelectedCities={setSelectedCities}
           selectedUnivs={selectedUnivs}
           setSelectedUnivs={setSelectedUnivs}
           reorderUnivs={reorderUnivs}
