@@ -21,10 +21,8 @@ function ClusterMarkers({ universities, onAddUniv }) {
 
       const popupContent = `
         <div>
-          <strong>${u.university}</strong><br />
-          <div>Pays: ${u.country || "-"}</div>
-          <div>Ville: ${u.city || "-"}</div>
-          <div>Étudiants internationaux: ${u.internationalStudents || "-"}</div>
+          <strong>${u.nom_partenaire}</strong><br />
+          <div>Pays: ${u.pays || "-"}</div>
           <button class="add-univ-btn">
             Ajouter
           </button>

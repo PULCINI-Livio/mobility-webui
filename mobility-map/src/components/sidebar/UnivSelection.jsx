@@ -65,14 +65,14 @@ export default function UnivSelection({ selectedUnivs, reorderUnivs }) {
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      const oldIndex = selectedUnivs.findIndex(u => u.university === active.id);
-      const newIndex = selectedUnivs.findIndex(u => u.university === over.id);
+      const oldIndex = selectedUnivs.findIndex(u => u.nom_partenaire === active.id);
+      const newIndex = selectedUnivs.findIndex(u => u.nom_partenaire === over.id);
       reorderUnivs(arrayMove(selectedUnivs, oldIndex, newIndex));
     }
   };
 
   const handleRemove = (universityName) => {
-    const newList = selectedUnivs.filter(u => u.university !== universityName);
+    const newList = selectedUnivs.filter(u => u.nom_partenaire !== universityName);
     reorderUnivs(newList);
   };
 
@@ -95,9 +95,9 @@ export default function UnivSelection({ selectedUnivs, reorderUnivs }) {
       >
         Universités sélectionnées</Typography>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={selectedUnivs.map(u => u.university)} strategy={verticalListSortingStrategy}>
+        <SortableContext items={selectedUnivs.map(u => u.nom_partenaire)} strategy={verticalListSortingStrategy}>
           {selectedUnivs.map(u => (
-            <SortableItem key={u.university} id={u.university} name={u.university} handleRemove={handleRemove} />
+            <SortableItem key={u.nom_partenaire} id={u.nom_partenaire} name={u.nom_partenaire} handleRemove={handleRemove} />
           ))}
         </SortableContext>
       </DndContext>

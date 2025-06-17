@@ -16,38 +16,59 @@ function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
 
-  const handleFileUpload = (file) => {
+  const handleFileUpload = async (file) => {
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
-
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
-      const parsedData = jsonData.map(u => ({
-        ...u,
-        latitude: parseFloat(u.latitude),
-        longitude: parseFloat(u.longitude),
-      })).filter(u => !isNaN(u.latitude) && !isNaN(u.longitude));
+      const geocodedData = await Promise.all(jsonData.map(async (u) => {
+        const address = `${u.adresse}`;
+        const coords = await geocodeAddress(address);
+        if (!coords) return null;
+        return {
+          ...u,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        };
+      }));
 
-      setUniversities(parsedData);
+      const validData = geocodedData.filter(u => u !== null);
+      setUniversities(validData);
     };
     reader.readAsArrayBuffer(file);
   };
 
-  const countries = [...new Set(universities.map(u => u.country).filter(Boolean))];
+
+  const countries = [...new Set(universities.map(u => u.pays).filter(Boolean))];
   const filtered = universities.filter(u => {
-    const countryMatch = selectedCountries.length === 0 || selectedCountries.includes(u.country);
+    const countryMatch = selectedCountries.length === 0 || selectedCountries.includes(u.pays);
     return countryMatch;
   });
 
   const addUniv = (univ) => {
-    if (selectedUnivs.some(u => u.university === univ.university) || selectedUnivs.length >= 5) return;
+    if (selectedUnivs.some(u => u.nom_partenaire === univ.university) || selectedUnivs.length >= 5) return;
     setSelectedUnivs([...selectedUnivs, univ]);
   };
 
   const reorderUnivs = (reordered) => setSelectedUnivs(reordered);
+  const geocodeAddress = async (address) => {
+    const encoded = encodeURIComponent(address);
+    const url = `https://nominatim.openstreetmap.org/search?q=${encoded}&format=json&limit=1`;
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent': 'university-map-app', // requis par Nominatim
+      }
+    });
+    const data = await res.json();
+    if (data.length === 0) return null;
+    return {
+      latitude: parseFloat(data[0].lat),
+      longitude: parseFloat(data[0].lon),
+    };
+  };
 
   return (
     <div className="relative flex min-h-screen bg-[#009bda]">
