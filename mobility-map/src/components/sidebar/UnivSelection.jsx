@@ -30,7 +30,6 @@ function SortableItem({ id, name, handleRemove }) {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: '4px'
   };
 
   return (

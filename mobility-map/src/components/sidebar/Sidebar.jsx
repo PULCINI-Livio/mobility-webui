@@ -2,8 +2,9 @@ import CartButton from "./CartButton";
 import MapButton from "./MapButton";
 import UnivSelection from "./UnivSelection";
 import CountryFilter from "./CountryFilter";
-import CityFilter from "./CityFilter";
 import InputFileUpload from "./InputFileUpload";
+import SemesterFilter from "./SemesterFilter";
+import SpecialtyFilter from "./SpecialtyFilter";
 import { useState } from "react";
 import Button from '@mui/material/Button';
 import { Typography, Box } from '@mui/material';
@@ -18,7 +19,11 @@ export default function Sidebar({
   selectedUnivs,
   setSelectedUnivs,
   reorderUnivs,
-  onFileUpload 
+  onFileUpload,
+  selectedSemester,
+  setSelectedSemester,
+  selectedSpecialty,
+  setSelectedSpecialty 
 }) {
 
   const handleSelect = (page) => {
@@ -74,6 +79,14 @@ export default function Sidebar({
       </Button>
       {filtersOpen && (
         <div className="space-y-2 mt-2">
+          <SemesterFilter
+            selectedSemester={selectedSemester}
+            setSelectedSemester={setSelectedSemester}
+          />
+          <SpecialtyFilter
+            selectedSpecialty={selectedSpecialty}
+            setSelectedSpecialty={setSelectedSpecialty}
+          />
           <CountryFilter
             countries={countries}
             selected={selectedCountries}

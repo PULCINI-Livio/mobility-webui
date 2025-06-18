@@ -10,10 +10,12 @@ function App() {
 
   const [universities, setUniversities] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
-
   const [selectedUnivs, setSelectedUnivs] = useState([]);
 
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  
+  const [selectedSemester, setSelectedSemester] = useState("S8");
+  const [selectedSpecialty, setSelectedSpecialty] = useState(""); // Ex: "IDU"
 
 
   const handleFileUpload = async (file) => {
@@ -45,7 +47,11 @@ function App() {
   const countries = [...new Set(universities.map(u => u.pays).filter(Boolean))];
   const filtered = universities.filter(u => {
     const countryMatch = selectedCountries.length === 0 || selectedCountries.includes(u.pays);
-    return countryMatch;
+    const semesterKey = `${selectedSemester}_total_places`;
+    const specialtyKey = selectedSemester && selectedSpecialty ? `${selectedSemester}_${selectedSpecialty}` : null;
+    const hasSemesterPlaces = u[semesterKey] > 0;
+    const hasSpecialtyPlaces = specialtyKey ? u[specialtyKey] > 0 : true;  
+    return countryMatch && hasSemesterPlaces && hasSpecialtyPlaces;
   });
 
   const addUniv = (univ) => {
@@ -100,6 +106,10 @@ function App() {
           setSelectedUnivs={setSelectedUnivs}
           reorderUnivs={reorderUnivs}
           onFileUpload={handleFileUpload}
+          selectedSemester={selectedSemester}
+          setSelectedSemester={setSelectedSemester}
+          selectedSpecialty={selectedSpecialty}
+          setSelectedSpecialty={setSelectedSpecialty}
         />
       )}
 
