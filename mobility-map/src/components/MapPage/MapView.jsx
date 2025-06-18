@@ -6,7 +6,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-function ClusterMarkers({ universities, onAddUniv }) {
+function ClusterMarkers({ universities, onAddUniv, popupFields }) {
   const map = useMap();
 
   useEffect(() => {
@@ -17,18 +17,19 @@ function ClusterMarkers({ universities, onAddUniv }) {
     universities.forEach((u) => {
       if (!u.latitude || !u.longitude) return;
 
-      const marker = L.marker([u.latitude, u.longitude], { university: u });
+      const lines = popupFields.map(field => {
+        const value = u[field] ?? '-';
+        return `<div><strong>${field.replace(/_/g, ' ')}:</strong> ${value}</div>`;
+      });
 
       const popupContent = `
         <div>
-          <strong>${u.nom_partenaire}</strong><br />
-          <div>Pays: ${u.pays || "-"}</div>
-          <button class="add-univ-btn">
-            Ajouter
-          </button>
+          ${popupFields.map(field => `<div><strong>${field}:</strong> ${u[field] ?? '-'}</div>`).join('')}
+          <button class="add-univ-btn">Ajouter</button>
         </div>
       `;
 
+      const marker = L.marker([u.latitude, u.longitude], { university: u });
       marker.bindPopup(popupContent);
       markerGroup.addLayer(marker);
     });
@@ -47,12 +48,13 @@ function ClusterMarkers({ universities, onAddUniv }) {
     return () => {
       map.removeLayer(markerGroup);
     };
-  }, [map, universities, onAddUniv]);
+  }, [map, universities, onAddUniv, popupFields]);
 
   return null;
 }
 
-export default function MapView({ universities, onAddUniv }) {
+
+export default function MapView({ universities, onAddUniv, popupFields }) {
   return (
     <div className="h-[100vh] w-full fixed">
       <MapContainer center={[48.85, 2.35]} zoom={4} scrollWheelZoom className="h-full w-full">
@@ -60,7 +62,7 @@ export default function MapView({ universities, onAddUniv }) {
           attribution="&copy; OpenStreetMap"
           url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}.png"
         />
-        <ClusterMarkers universities={universities} onAddUniv={onAddUniv} />
+        <ClusterMarkers universities={universities} onAddUniv={onAddUniv} popupFields={popupFields} />
       </MapContainer>
     </div>
   );

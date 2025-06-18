@@ -18,6 +18,7 @@ function App() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [maxNote, setMaxNote] = useState(20);
   const [onlyEnglish, setOnlyEnglish] = useState(false);
+  const [popupFields, setPopupFields] = useState(['nom_partenaire', 'pays']);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("uploadedFile");
@@ -219,11 +220,13 @@ function App() {
           setMaxNote={setMaxNote}
           onlyEnglish={onlyEnglish}
           setOnlyEnglish={setOnlyEnglish}
+          popupFields={popupFields}
+          setPopupFields={setPopupFields}
         />
       )}
 
       <main className="flex-1 p-6">
-        {activePage === "map" && <MapPage universities={filtered} onAddUniv={addUniv} />}
+        {activePage === "map" && <MapPage universities={filtered} onAddUniv={addUniv} popupFields={popupFields} />}
         {activePage === "comparison" && <ComparisonPage selectedUnivs={selectedUnivs} />}
       </main>
     </div>

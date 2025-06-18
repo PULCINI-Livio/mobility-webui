@@ -7,6 +7,7 @@ import SemesterFilter from "./SemesterFilter";
 import SpecialtyFilter from "./SpecialtyFilter";
 import NoteMinFilter from "./NoteMinFilter";
 import EnglishLanguageFilter from "./EnglishLanguageFilter";
+import PopupFieldSelector from "./PopupFieldSelector";
 import { useState } from "react";
 import Button from '@mui/material/Button';
 import { Typography, Box } from '@mui/material';
@@ -29,7 +30,9 @@ export default function Sidebar({
   maxNote, 
   setMaxNote,
   onlyEnglish,
-  setOnlyEnglish
+  setOnlyEnglish,
+  popupFields,
+  setPopupFields
 }) {
 
   const handleSelect = (page) => {
@@ -43,7 +46,6 @@ export default function Sidebar({
     setOnlyEnglish(false);
   };
   const [filtersOpen, setFiltersOpen] = useState(true);
-      
   return (
     <div className="bg-[#009bda] px-[2vh] max-w-[20vw] min-w-min pt-[32px]">
       <Box display="flex" alignItems="center" gap={1}>
@@ -54,7 +56,7 @@ export default function Sidebar({
             color: '#ffffff' 
           }}
         >
-          MOBILITY
+          PARTIR UN JOUR
         </Typography>
       </Box>
       <MapButton
@@ -66,6 +68,7 @@ export default function Sidebar({
         active={activePage === "comparison"}
       />
       <InputFileUpload onFileUpload={onFileUpload} />
+      <PopupFieldSelector selectedFields={popupFields} onChange={setPopupFields} />
       <UnivSelection
         selectedUnivs={selectedUnivs}
         setSelectedUnivs={setSelectedUnivs}
