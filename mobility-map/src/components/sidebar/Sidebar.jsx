@@ -6,6 +6,7 @@ import InputFileUpload from "./InputFileUpload";
 import SemesterFilter from "./SemesterFilter";
 import SpecialtyFilter from "./SpecialtyFilter";
 import NoteMinFilter from "./NoteMinFilter";
+import EnglishLanguageFilter from "./EnglishLanguageFilter";
 import { useState } from "react";
 import Button from '@mui/material/Button';
 import { Typography, Box } from '@mui/material';
@@ -26,7 +27,9 @@ export default function Sidebar({
   selectedSpecialty,
   setSelectedSpecialty,
   maxNote, 
-  setMaxNote
+  setMaxNote,
+  onlyEnglish,
+  setOnlyEnglish
 }) {
 
   const handleSelect = (page) => {
@@ -90,6 +93,7 @@ export default function Sidebar({
             selectedSpecialty={selectedSpecialty}
             setSelectedSpecialty={setSelectedSpecialty}
           />
+          <EnglishLanguageFilter onlyEnglish={onlyEnglish} setOnlyEnglish={setOnlyEnglish} />
           <NoteMinFilter maxNote={maxNote} setMaxNote={setMaxNote} />
           <CountryFilter
             countries={countries}

@@ -17,7 +17,7 @@ function App() {
   const [selectedSemester, setSelectedSemester] = useState("S8");
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [maxNote, setMaxNote] = useState(20);
-
+  const [onlyEnglish, setOnlyEnglish] = useState(false);
 
   const handleFileUpload = async (file) => {
     const reader = new FileReader();
@@ -53,7 +53,12 @@ function App() {
     const hasSemesterPlaces = u[semesterKey] > 0;
     const hasSpecialtyPlaces = specialtyKey ? u[specialtyKey] > 0 : true; 
     const noteOk = !u.note_min || parseFloat(u.note_min) <= maxNote; 
-    return countryMatch && hasSemesterPlaces && hasSpecialtyPlaces && noteOk;
+    const englishOk = !onlyEnglish || (
+    !u.langue_des_cours ||  // garder les cases vides
+    u.langue_des_cours.toLowerCase().includes("anglais")
+    );
+
+    return countryMatch && hasSemesterPlaces && hasSpecialtyPlaces && noteOk && englishOk;
   });
 
   const addUniv = (univ) => {
@@ -114,6 +119,8 @@ function App() {
           setSelectedSpecialty={setSelectedSpecialty}
           maxNote={maxNote} 
           setMaxNote={setMaxNote}
+          onlyEnglish={onlyEnglish}
+          setOnlyEnglish={setOnlyEnglish}
         />
       )}
 
