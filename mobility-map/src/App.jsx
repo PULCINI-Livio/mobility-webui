@@ -19,30 +19,128 @@ function App() {
   const [maxNote, setMaxNote] = useState(20);
   const [onlyEnglish, setOnlyEnglish] = useState(false);
 
+  useEffect(() => {
+    const saved = sessionStorage.getItem("uploadedFile");
+    if (saved) {
+      const buffer = new Uint8Array(JSON.parse(saved));
+      const workbook = XLSX.read(buffer, { type: 'array' });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+      // Même logique de parsing/géocodage ici
+      (async () => {
+        const geocodedData = await Promise.all(jsonData.map(async (u) => {
+          const hasLat = u.latitude && !isNaN(parseFloat(u.latitude));
+          const hasLng = u.longitude && !isNaN(parseFloat(u.longitude));
+
+          if (hasLat && hasLng) {
+            return {
+              ...u,
+              latitude: parseFloat(u.latitude),
+              longitude: parseFloat(u.longitude),
+            };
+          }
+
+          const address = u.adresse?.trim();
+          if (!address) return null;
+
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`, {
+              headers: {
+                'User-Agent': 'mobility-app/1.0 (contact@example.com)',
+              }
+            });
+            const results = await response.json();
+            if (results[0]) {
+              return {
+                ...u,
+                latitude: parseFloat(results[0].lat),
+                longitude: parseFloat(results[0].lon),
+              };
+            }
+          } catch (error) {
+            console.error(`Erreur de géocodage pour ${address}:`, error);
+          }
+
+          return null;
+        }));
+
+        const validData = geocodedData.filter(u => u && !isNaN(u.latitude) && !isNaN(u.longitude));
+        setUniversities(validData);
+      })();
+    }
+  }, []);
+
   const handleFileUpload = async (file) => {
     const reader = new FileReader();
     reader.onload = async (e) => {
       const data = new Uint8Array(e.target.result);
+      sessionStorage.setItem("uploadedFile", JSON.stringify(Array.from(new Uint8Array(e.target.result))));
       const workbook = XLSX.read(data, { type: 'array' });
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
+      const geocodeCache = JSON.parse(localStorage.getItem("geocodeCache") || "{}");
+
       const geocodedData = await Promise.all(jsonData.map(async (u) => {
-        const address = `${u.adresse}`;
-        const coords = await geocodeAddress(address);
-        if (!coords) return null;
-        return {
-          ...u,
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        };
+        const hasLat = u.latitude && !isNaN(parseFloat(u.latitude));
+        const hasLng = u.longitude && !isNaN(parseFloat(u.longitude));
+
+        if (hasLat && hasLng) {
+          return {
+            ...u,
+            latitude: parseFloat(u.latitude),
+            longitude: parseFloat(u.longitude),
+          };
+        }
+
+        const address = u.adresse?.trim();
+        if (!address) return null;
+
+        if (geocodeCache[address]) {
+          return {
+            ...u,
+            latitude: geocodeCache[address].lat,
+            longitude: geocodeCache[address].lon,
+          };
+        }
+
+        try {
+          const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`, {
+            headers: {
+              'User-Agent': 'mobility-app/1.0 (contact@example.com)',
+            }
+          });
+
+          const results = await response.json();
+          if (results[0]) {
+            const lat = parseFloat(results[0].lat);
+            const lon = parseFloat(results[0].lon);
+            geocodeCache[address] = { lat, lon };
+            return {
+              ...u,
+              latitude: lat,
+              longitude: lon,
+            };
+          }
+        } catch (err) {
+          console.error(`Erreur géocodage: ${address}`, err);
+        }
+
+        return null;
       }));
 
-      const validData = geocodedData.filter(u => u !== null);
+      // Sauvegarde du cache
+      localStorage.setItem("geocodeCache", JSON.stringify(geocodeCache));
+
+      const validData = geocodedData.filter(u => u && !isNaN(u.latitude) && !isNaN(u.longitude));
       setUniversities(validData);
     };
+
     reader.readAsArrayBuffer(file);
+    
   };
+
 
 
   const countries = [...new Set(universities.map(u => u.pays).filter(Boolean))];
