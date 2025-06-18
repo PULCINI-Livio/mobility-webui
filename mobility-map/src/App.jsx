@@ -15,7 +15,7 @@ function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   
   const [selectedSemester, setSelectedSemester] = useState("S8");
-  const [selectedSpecialty, setSelectedSpecialty] = useState("");
+  const [selectedSpecialty, setSelectedSpecialty] = useState("IDU");
   const [maxNote, setMaxNote] = useState(20);
   const [onlyEnglish, setOnlyEnglish] = useState(false);
   const [popupFields, setPopupFields] = useState([]);
@@ -226,7 +226,14 @@ function App() {
       )}
 
       <main className="flex-1 p-6">
-        {activePage === "map" && <MapPage universities={filtered} onAddUniv={addUniv} popupFields={popupFields} />}
+        {activePage === "map" && 
+          <MapPage
+          universities={filtered}
+          onAddUniv={addUniv}
+          popupFields={popupFields}
+          selectedSemester={selectedSemester}
+          selectedSpecialty={selectedSpecialty}
+        />}
         {activePage === "comparison" && <ComparisonPage selectedUnivs={selectedUnivs} />}
       </main>
     </div>

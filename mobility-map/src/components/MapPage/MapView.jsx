@@ -6,7 +6,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-function ClusterMarkers({ universities, onAddUniv, popupFields }) {
+function ClusterMarkers({ universities, onAddUniv, popupFields, selectedSemester, selectedSpecialty }) {
   const map = useMap();
 
   const popupFieldLabels = {
@@ -37,9 +37,13 @@ function ClusterMarkers({ universities, onAddUniv, popupFields }) {
         return `<div><strong>${field.replace(/_/g, ' ')}:</strong> ${value}</div>`;
       });
 
+      const fieldKey = `${selectedSemester}_${selectedSpecialty}`; // ex: "S8_IDU"
+      const places = u[fieldKey] ?? 'Veuillez préciser la spécialité';
+
       const popupContent = `
         <div>
           <div>${u.nom_partenaire || "-"}</div>
+          <div><strong>Places (${fieldKey}):</strong> ${places}</div>
           ${popupFields.map(field => {
             const label = popupFieldLabels[field] || field;
             return `<div><strong>${label}:</strong> ${u[field] ?? '-'}</div>`;
@@ -72,7 +76,7 @@ function ClusterMarkers({ universities, onAddUniv, popupFields }) {
 }
 
 
-export default function MapView({ universities, onAddUniv, popupFields }) {
+export default function MapView({ universities, onAddUniv, popupFields, selectedSemester, selectedSpecialty }) {
   return (
     <div className="h-[100vh] w-full fixed">
       <MapContainer center={[48.85, 2.35]} zoom={4} scrollWheelZoom className="h-full w-full">
@@ -80,7 +84,13 @@ export default function MapView({ universities, onAddUniv, popupFields }) {
           attribution="&copy; OpenStreetMap"
           url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}.png"
         />
-        <ClusterMarkers universities={universities} onAddUniv={onAddUniv} popupFields={popupFields} />
+        <ClusterMarkers
+          universities={universities}
+          onAddUniv={onAddUniv}
+          popupFields={popupFields}
+          selectedSemester={selectedSemester}
+          selectedSpecialty={selectedSpecialty}
+        />
       </MapContainer>
     </div>
   );
