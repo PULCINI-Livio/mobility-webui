@@ -18,7 +18,7 @@ function App() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [maxNote, setMaxNote] = useState(20);
   const [onlyEnglish, setOnlyEnglish] = useState(false);
-  const [popupFields, setPopupFields] = useState(['nom_partenaire', 'pays']);
+  const [popupFields, setPopupFields] = useState([]);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("uploadedFile");

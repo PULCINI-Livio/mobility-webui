@@ -9,6 +9,21 @@ import 'leaflet.markercluster';
 function ClusterMarkers({ universities, onAddUniv, popupFields }) {
   const map = useMap();
 
+  const popupFieldLabels = {
+    nom_partenaire: "Nom du partenaire",
+    pays: "Pays",
+    adresse: "Adresse",
+    site_web: "Site web",
+    langue_des_cours: "Langue des cours",
+    note_min: "Note minimale",
+    criteres_academiques: "Critères Academiques",
+    integration_et_vie_sociale: "Intégration et Vie Sociale",
+    logement_et_vie_quotidienne: "Logement et Vie Quotidienne",
+    organisation_et_demarches: "Organisation et Démarches",
+    experience_globale: "Expérience Globale",
+    // Ajoute d'autres labels ici si nécessaire
+  };
+
   useEffect(() => {
     if (!map || !universities || universities.length === 0) return;
 
@@ -24,11 +39,14 @@ function ClusterMarkers({ universities, onAddUniv, popupFields }) {
 
       const popupContent = `
         <div>
-          ${popupFields.map(field => `<div><strong>${field}:</strong> ${u[field] ?? '-'}</div>`).join('')}
+          <div>${u.nom_partenaire || "-"}</div>
+          ${popupFields.map(field => {
+            const label = popupFieldLabels[field] || field;
+            return `<div><strong>${label}:</strong> ${u[field] ?? '-'}</div>`;
+          }).join('')}
           <button class="add-univ-btn">Ajouter</button>
         </div>
       `;
-
       const marker = L.marker([u.latitude, u.longitude], { university: u });
       marker.bindPopup(popupContent);
       markerGroup.addLayer(marker);
