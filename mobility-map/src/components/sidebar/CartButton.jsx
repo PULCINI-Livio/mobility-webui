@@ -24,7 +24,7 @@ export default function CartButton({ onButtonClick, active }) {
         <ShoppingCartIcon style={{ height: 24, width: 24 }} />
       }
     >
-      Cart Comparison
+      Tableau Comparatif
     </Button>
   );
 }
