@@ -5,6 +5,7 @@ import CountryFilter from "./CountryFilter";
 import InputFileUpload from "./InputFileUpload";
 import SemesterFilter from "./SemesterFilter";
 import SpecialtyFilter from "./SpecialtyFilter";
+import NoteMinFilter from "./NoteMinFilter";
 import { useState } from "react";
 import Button from '@mui/material/Button';
 import { Typography, Box } from '@mui/material';
@@ -23,7 +24,9 @@ export default function Sidebar({
   selectedSemester,
   setSelectedSemester,
   selectedSpecialty,
-  setSelectedSpecialty 
+  setSelectedSpecialty,
+  maxNote, 
+  setMaxNote
 }) {
 
   const handleSelect = (page) => {
@@ -87,6 +90,7 @@ export default function Sidebar({
             selectedSpecialty={selectedSpecialty}
             setSelectedSpecialty={setSelectedSpecialty}
           />
+          <NoteMinFilter maxNote={maxNote} setMaxNote={setMaxNote} />
           <CountryFilter
             countries={countries}
             selected={selectedCountries}

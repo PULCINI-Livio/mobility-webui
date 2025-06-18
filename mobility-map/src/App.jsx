@@ -15,7 +15,8 @@ function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   
   const [selectedSemester, setSelectedSemester] = useState("S8");
-  const [selectedSpecialty, setSelectedSpecialty] = useState(""); // Ex: "IDU"
+  const [selectedSpecialty, setSelectedSpecialty] = useState("");
+  const [maxNote, setMaxNote] = useState(20);
 
 
   const handleFileUpload = async (file) => {
@@ -50,8 +51,9 @@ function App() {
     const semesterKey = `${selectedSemester}_total_places`;
     const specialtyKey = selectedSemester && selectedSpecialty ? `${selectedSemester}_${selectedSpecialty}` : null;
     const hasSemesterPlaces = u[semesterKey] > 0;
-    const hasSpecialtyPlaces = specialtyKey ? u[specialtyKey] > 0 : true;  
-    return countryMatch && hasSemesterPlaces && hasSpecialtyPlaces;
+    const hasSpecialtyPlaces = specialtyKey ? u[specialtyKey] > 0 : true; 
+    const noteOk = !u.note_min || parseFloat(u.note_min) <= maxNote; 
+    return countryMatch && hasSemesterPlaces && hasSpecialtyPlaces && noteOk;
   });
 
   const addUniv = (univ) => {
@@ -110,6 +112,8 @@ function App() {
           setSelectedSemester={setSelectedSemester}
           selectedSpecialty={selectedSpecialty}
           setSelectedSpecialty={setSelectedSpecialty}
+          maxNote={maxNote} 
+          setMaxNote={setMaxNote}
         />
       )}
 
