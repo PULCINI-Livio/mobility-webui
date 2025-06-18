@@ -37,6 +37,10 @@ export default function Sidebar({
   };
   const handleResetFilters = () => {
     setSelectedCountries([]);
+    setSelectedSemester("S8");
+    setSelectedSpecialty("");
+    setMaxNote(20);
+    setOnlyEnglish(false);
   };
   const [filtersOpen, setFiltersOpen] = useState(true);
       
