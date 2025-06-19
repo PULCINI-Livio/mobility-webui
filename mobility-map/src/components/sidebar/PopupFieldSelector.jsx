@@ -4,7 +4,6 @@ import { FormGroup, FormControlLabel, Checkbox, Typography } from '@mui/material
 const fieldOptions = [
   { label: 'Pays', key: 'pays' },
   { label: 'Adresse', key: 'adresse' },
-  { label: 'Site web', key: 'site_web' },
   { label: 'Critères Academiques', key: 'criteres_academiques' },
   { label: 'Intégration et Vie Sociale', key: 'integration_et_vie_sociale' },
   { label: 'Logement et Vie Quotidienne', key: 'logement_et_vie_quotidienne' },

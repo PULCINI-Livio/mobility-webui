@@ -24,6 +24,7 @@ function ClusterMarkers({ universities, onAddUniv, popupFields, selectedSemester
     // Ajoute d'autres labels ici si nécessaire
   };
 
+
   useEffect(() => {
     if (!map || !universities || universities.length === 0) return;
 
@@ -39,7 +40,10 @@ function ClusterMarkers({ universities, onAddUniv, popupFields, selectedSemester
 
       const fieldKey = `${selectedSemester}_${selectedSpecialty}`; // ex: "S8_IDU"
       const places = u[fieldKey] ?? 'Veuillez préciser la spécialité';
-
+      const siteWebLink = u.site_web
+        ? `<a href="${u.site_web}" target="_blank" rel="noopener noreferrer">${u.site_web}</a>`
+        : '-';
+        
       const popupContent = `
         <div>
           <div>${u.nom_partenaire || "-"}</div>
@@ -48,6 +52,7 @@ function ClusterMarkers({ universities, onAddUniv, popupFields, selectedSemester
             const label = popupFieldLabels[field] || field;
             return `<div><strong>${label}:</strong> ${u[field] ?? '-'}</div>`;
           }).join('')}
+          <div>Site Web: ${siteWebLink}</div>
           <button class="add-univ-btn">Ajouter</button>
         </div>
       `;

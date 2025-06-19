@@ -7,13 +7,29 @@ function ComparisonTable({ universities }) {
   }
 
   const columns = [
-    { field: 'id', headerName: 'ID', flex: 0.3 },
+    //{ field: 'id', headerName: 'ID', flex: 0.3 },
     { field: 'nom_partenaire', headerName: 'Nom', flex: 1 },
     { field: 'pays', headerName: 'Pays', flex: 0.7 },
     { field: 'adresse', headerName: 'Adresse', flex: 0.7 },
-    { field: 'latitude', headerName: 'Latitude', flex: 0.6, type: 'number' },
-    { field: 'longitude', headerName: 'Longitude', flex: 0.6, type: 'number' },
-    { field: 'site_web', headerName: 'Site Web', flex: 0.7 },
+    //{ field: 'latitude', headerName: 'Latitude', flex: 0.6, type: 'number' },
+    //{ field: 'longitude', headerName: 'Longitude', flex: 0.6, type: 'number' },
+    {field: 'site_web',
+      headerName: 'Site Web',
+      flex: 0.7,
+      renderCell: (params) =>
+        params.value ? (
+          <a
+            href={params.value}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#1976d2', textDecoration: 'underline' }}
+          >
+            {params.value}
+          </a>
+        ) : (
+          "-"
+        ),
+    },
     { field: 'langue_des_cours', headerName: 'Langue des cours', flex: 0.7 },
     { field: 'S8_total_places', headerName: 'S8 Total Places', flex: 0.7 },
     { field: 'S9_total_places', headerName: 'S9 Total Places', flex: 0.7 },
@@ -36,7 +52,6 @@ function ComparisonTable({ universities }) {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        autoHeight
         sx={{
           '& .MuiDataGrid-columnSeparator': {
             display: 'none',
