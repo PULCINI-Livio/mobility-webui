@@ -46,6 +46,7 @@ export default function Sidebar({
     setOnlyEnglish(false);
   };
   const [filtersOpen, setFiltersOpen] = useState(true);
+  const [popupFieldsSelectorOpen, setpopupFieldsSelectorOpen] = useState(true);
   return (
     <div className="bg-[#009bda] px-[2vh] max-w-[20vw] min-w-min pt-[32px]">
       <Box display="flex" alignItems="center" gap={1}>
@@ -68,7 +69,7 @@ export default function Sidebar({
         active={activePage === "comparison"}
       />
       <InputFileUpload onFileUpload={onFileUpload} />
-      <PopupFieldSelector selectedFields={popupFields} onChange={setPopupFields} />
+      
       <UnivSelection
         selectedUnivs={selectedUnivs}
         setSelectedUnivs={setSelectedUnivs}
@@ -90,6 +91,7 @@ export default function Sidebar({
       >
         {filtersOpen ? "Masquer les filtres" : "Afficher les filtres"}
       </Button>
+      
       {filtersOpen && (
         <div className="space-y-2 mt-2">
           <SemesterFilter
@@ -124,6 +126,25 @@ export default function Sidebar({
             Réinitialiser les filtres
           </Button>
         </div>
+      )}
+      <Button
+        onClick={() => setpopupFieldsSelectorOpen(prev => !prev)}
+        sx={{
+          boxShadow: 'none',
+          backgroundColor:'#ffffff',
+          color: '#009bda',
+          textTransform: 'none',
+          marginY: '2vh',
+          '&:hover': {
+            backgroundColor: '#8d8d8d',
+            color: '#ffffff'
+          },
+        }}
+      >
+        {popupFieldsSelectorOpen ? "Masquer les filtres des popups" : "Afficher les filtres des popups"}
+      </Button>
+      {popupFieldsSelectorOpen && (
+        <PopupFieldSelector selectedFields={popupFields} onChange={setPopupFields} />
       )}
     </div>
   );

@@ -33,7 +33,7 @@ function ComparisonTable({ universities }) {
     { field: 'langue_des_cours', headerName: 'Langue des cours', flex: 0.7 },
     { field: 'S8_total_places', headerName: 'S8 Total Places', flex: 0.7 },
     { field: 'S9_total_places', headerName: 'S9 Total Places', flex: 0.7 },
-    { field: 'criteres_academiques', headerName: 'Critères Academiques', flex: 0.7 },
+    { field: 'criteres_academiques', headerName: 'Critères Academiques', description: "Qualité des cours, difficulté d'admission, etc.", flex: 0.7 },
     { field: 'integration_et_vie_sociale', headerName: 'Intégration et Vie Sociale', flex: 0.7 },
     { field: 'logement_et_vie_quotidienne', headerName: 'Logement et Vie Quotidienne', flex: 0.7 },
     { field: 'organisation_et_demarches', headerName: 'Organisation et Démarches', flex: 0.7 },

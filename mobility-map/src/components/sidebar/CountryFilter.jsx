@@ -8,8 +8,7 @@ export default function CountryFilter({ countries, selected, onChange }) {
           padding:'10px',
           backgroundColor:'#ffffff',
           color: '#000000',
-          borderTopRightRadius: '4px',
-          borderTopLeftRadius: '4px',
+          borderRadius: "4px"
         }}
     >
       <Autocomplete

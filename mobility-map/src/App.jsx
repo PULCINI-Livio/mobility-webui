@@ -183,7 +183,7 @@ function App() {
   };
 
   return (
-    <div className="relative flex min-h-screen bg-[#009bda]">
+    <div className="relative flex min-h-screen bg-[#ffffff]">
       <Button
         onClick={() => setSidebarVisible(!sidebarVisible)}
         sx={{

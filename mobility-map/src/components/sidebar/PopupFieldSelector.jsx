@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormGroup, FormControlLabel, Checkbox, Typography } from '@mui/material';
+import { CSS } from "@dnd-kit/utilities";
 
 const fieldOptions = [
   { label: 'Pays', key: 'pays' },
@@ -13,6 +14,15 @@ const fieldOptions = [
 ];
 
 export default function PopupFieldSelector({ selectedFields, onChange }) {
+  const style = {
+    padding: "8px",
+    marginBottom: "4px",
+    background: "#ffffff",
+    borderRadius: "4px",
+    cursor: "grab",
+    justifyContent: "space-between",
+    alignItems: "center",
+  };
   const handleToggle = (key) => {
     if (selectedFields.includes(key)) {
       onChange(selectedFields.filter(f => f !== key));
@@ -22,8 +32,8 @@ export default function PopupFieldSelector({ selectedFields, onChange }) {
   };
 
   return (
-    <div>
-      <Typography variant="subtitle1" sx={{ color: '#ffffff', fontWeight: 'bold' }}>
+    <div style={style}>
+      <Typography variant="subtitle1" sx={{ color: '#009bda', fontWeight: 'bold' }}>
         Champs à afficher dans la popup
       </Typography>
       <FormGroup>
@@ -34,10 +44,10 @@ export default function PopupFieldSelector({ selectedFields, onChange }) {
               <Checkbox
                 checked={selectedFields.includes(key)}
                 onChange={() => handleToggle(key)}
-                sx={{ color: '#ffffff' }}
+                sx={{ color: '#009bda' }}
               />
             }
-            label={<span style={{ color: '#ffffff' }}>{label}</span>}
+            label={<span style={{ color: '#009bda' }}>{label}</span>}
           />
         ))}
       </FormGroup>
