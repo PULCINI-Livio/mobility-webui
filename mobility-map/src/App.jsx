@@ -236,10 +236,7 @@ function App() {
           selectedSpecialty={selectedSpecialty}
         />}
         {activePage === "comparison" && <ComparisonPage selectedUnivs={selectedUnivs} />}
-        <WishPage
-          sidebarUnivs={selectedUnivs}
-          selectedSemester={selectedSemester}
-        />
+        {activePage === "wish" && <WishPage sidebarUnivs={selectedUnivs} selectedSemester={selectedSemester} />}
       </main>
     </div>
   );

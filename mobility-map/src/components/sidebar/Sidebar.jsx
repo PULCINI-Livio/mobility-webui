@@ -48,6 +48,7 @@ export default function Sidebar({
   };
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [popupFieldsSelectorOpen, setpopupFieldsSelectorOpen] = useState(true);
+  
   return (
     <div className="bg-[#009bda] px-[2vh] max-w-[20vw] min-w-min pt-[32px]">
       <Box display="flex" alignItems="center" gap={1}>
