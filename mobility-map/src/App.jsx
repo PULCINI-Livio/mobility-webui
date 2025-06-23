@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Sidebar from './components/sidebar/Sidebar';
 import MapPage from './components/MapPage/MapPage';
 import ComparisonPage from './components/ComparisonPage/ComparisonPage';
+import WishPage from './components/WishPage/WishPage';
 import * as XLSX from 'xlsx';
 import Button from '@mui/material/Button';
 
@@ -235,6 +236,10 @@ function App() {
           selectedSpecialty={selectedSpecialty}
         />}
         {activePage === "comparison" && <ComparisonPage selectedUnivs={selectedUnivs} />}
+        <WishPage
+          sidebarUnivs={selectedUnivs}
+          selectedSemester={selectedSemester}
+        />
       </main>
     </div>
   );

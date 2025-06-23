@@ -8,6 +8,7 @@ import SpecialtyFilter from "./SpecialtyFilter";
 import NoteMinFilter from "./NoteMinFilter";
 import EnglishLanguageFilter from "./EnglishLanguageFilter";
 import PopupFieldSelector from "./PopupFieldSelector";
+import WishButton from "./WishButton";
 import { useState } from "react";
 import Button from '@mui/material/Button';
 import { Typography, Box } from '@mui/material';
@@ -68,8 +69,12 @@ export default function Sidebar({
         onButtonClick={() => handleSelect("comparison")}
         active={activePage === "comparison"}
       />
+      <WishButton
+        onButtonClick={() => handleSelect("wish")}
+        active={activePage === "wish"}
+      />
+
       <InputFileUpload onFileUpload={onFileUpload} />
-      
       <UnivSelection
         selectedUnivs={selectedUnivs}
         setSelectedUnivs={setSelectedUnivs}
