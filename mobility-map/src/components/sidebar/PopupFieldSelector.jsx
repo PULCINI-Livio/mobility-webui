@@ -9,7 +9,8 @@ const fieldOptions = [
   { label: 'Intégration et Vie Sociale', key: 'integration_et_vie_sociale' },
   { label: 'Logement et Vie Quotidienne', key: 'logement_et_vie_quotidienne' },
   { label: 'Organisation et Démarches', key: 'organisation_et_demarches' },
-  { label: 'Expérience Globale', key: 'experience_globale' }
+  { label: 'Expérience Globale', key: 'experience_globale' },
+  { label: 'Commentaire', key: 'commentaire' }
   // Ajoute d'autres champs ici si besoin
 ];
 

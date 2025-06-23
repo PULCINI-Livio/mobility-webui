@@ -21,6 +21,7 @@ function ClusterMarkers({ universities, onAddUniv, popupFields, selectedSemester
     logement_et_vie_quotidienne: "Logement et Vie Quotidienne",
     organisation_et_demarches: "Organisation et Démarches",
     experience_globale: "Expérience Globale",
+    commentaire: "Commentaire"
     // Ajoute d'autres labels ici si nécessaire
   };
 
