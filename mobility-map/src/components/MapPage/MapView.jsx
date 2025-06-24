@@ -5,6 +5,17 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import L from 'leaflet';
 import 'leaflet.markercluster';
+import iconUrl from 'leaflet/dist/images/marker-icon.png';
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+});
 
 function ClusterMarkers({ universities, onAddUniv, popupFields, selectedSemester, selectedSpecialty }) {
   const map = useMap();
@@ -87,8 +98,10 @@ export default function MapView({ universities, onAddUniv, popupFields, selected
     <div className="h-[100vh] w-full fixed">
       <MapContainer center={[48.85, 2.35]} zoom={4} scrollWheelZoom className="h-full w-full">
         <TileLayer
-          attribution="&copy; OpenStreetMap"
-          url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}.png"
+          //attribution="&copy; OpenStreetMap"
+          //url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <ClusterMarkers
           universities={universities}
