@@ -4,11 +4,14 @@ import { Typography, TextField, MenuItem, Select, FormControl, InputLabel, Butto
 
 const specialties = ["MM", "MC", "SNI", "BAT", "EIT", "IDU"];
 
-export default function WishPage({ sidebarUnivs, selectedSemester }) {
-  // Deux sélecteurs, chacun avec sa liste d'universités propres
-  const [s8Univs, setS8Univs] = useState([]);
-  const [s9Univs, setS9Univs] = useState([]);
-    
+export default function WishPage({ 
+  sidebarUnivs, 
+  selectedSemester, 
+  s8Univs,
+  setS8Univs,
+  s9Univs,
+  setS9Univs
+}) {
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
   const [selectedSpecialty, setSelectedSpecialty] = useState("");

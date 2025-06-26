@@ -21,6 +21,10 @@ function App() {
   const [onlyEnglish, setOnlyEnglish] = useState(false);
   const [popupFields, setPopupFields] = useState([]);
 
+  const [wishlist, setWishlist] = useState([]);
+  const [s8Univs, setS8Univs] = useState([]);
+  const [s9Univs, setS9Univs] = useState([]);
+
   useEffect(() => {
     const saved = sessionStorage.getItem("uploadedFile");
     if (saved) {
@@ -236,7 +240,16 @@ function App() {
           selectedSpecialty={selectedSpecialty}
         />}
         {activePage === "comparison" && <ComparisonPage selectedUnivs={selectedUnivs} />}
-        {activePage === "wish" && <WishPage sidebarUnivs={selectedUnivs} selectedSemester={selectedSemester} />}
+        {activePage === "wish" && 
+          <WishPage 
+            sidebarUnivs={selectedUnivs} 
+            selectedSemester={selectedSemester} 
+            s8Univs={s8Univs}
+            setS8Univs={setS8Univs}
+            s9Univs={s9Univs}
+            setS9Univs={setS9Univs}
+          />
+        }
       </main>
     </div>
   );
