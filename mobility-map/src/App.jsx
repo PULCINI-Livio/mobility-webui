@@ -26,6 +26,10 @@ function App() {
   const [s9Univs, setS9Univs] = useState([]);
 
   useEffect(() => {
+    setSelectedUnivs([]); // Réinitialise la sélection à chaque changement de semestre
+  }, [selectedSemester]);
+
+  useEffect(() => {
     const saved = sessionStorage.getItem("uploadedFile");
     if (saved) {
       const buffer = new Uint8Array(JSON.parse(saved));
