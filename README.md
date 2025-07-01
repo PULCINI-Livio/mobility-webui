@@ -2,6 +2,9 @@
 
 Cloner le dépôt, placez-vous ensuite dans le dossier ```mobility-map```.
 
+## Installer l'application
+Si vous possédez ou que vous avez généré un fichier de type ```mobility-map Setup 0.0.0.exe```, il vous suffit de l'exécuter pour lancer le processus d'installation, vous pourrez ensuite lancer l'application comme n'importe quelle application présente sur votre bureau.
+
 ## Lancer l'application en mode développement (React uniquement)
 Cette section explique comment exécuter l'application React seule, sans Electron, dans un navigateur web.
 
